@@ -1,0 +1,58 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Prata&display=swap');
+a.active hr{
+    display: block;
+}
+@font-face {
+  font-family: ASPECT;
+  src: url(../public/ASPECT-RANGE-DEMO.ttf);
+}
+
+*{
+    font-family: Outfit;
+    scroll-behavior: smooth;
+    outline-style: none;
+}
+
+
+
+button{
+  outline-color: black;
+}
+
+
+
+.prata-regular {
+  font-family: ASPECT, serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+@media (max-width:640px){
+  
+  a.active{
+    background-color: black;
+    color: white;
+  }
+  *{
+    cursor: auto;
+  }
+  
+}
+
+
+
+
+@theme {
+  --color-brown-50: #fdfaf7;
+  --color-brown-100: #f3e9e0;
+  --color-brown-200: #ead8cc;
+  --color-brown-500: #8d5a44;
+  --color-brown-600: #7a4a36;
+  --color-brown-800: #5a3a2a;
+  --color-brown-900: #3e2723;
+}

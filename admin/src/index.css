@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+.active{
+  /* main color */
+    background-color: #ffebf5;
+    border-color: #c586A5;
+
+    /* seccond collor */
+    background-color: hsl(58, 46%, 95%);
+    border-color: #e2e0b0;
+}
+
+select,input,textarea{
+  border: 1px solid #c2c2c2;
+  border-radius: 4px;
+  /* main color */
+  outline-color: #c586A5;
+  /* seccond color */
+  outline-color: #e2e0b0;
+}
+option{
+  color: black;
+}
+option{
+  outline-color: #c586A5;
+}
+button{
+  outline-color: black;
+}
+* {
+  font-family: "Outfit";
+}
+::-webkit-scrollbar{
+  display: none;
+}
+
+@theme {
+  --color-brown-50: #fdfaf7;
+  --color-brown-100: #f3e9e0;
+  --color-brown-200: #ead8cc;
+  --color-brown-500: #8d5a44;
+  --color-brown-600: #7a4a36;
+  --color-brown-800: #5a3a2a;
+  --color-brown-900: #3e2723;
+}
+
+/* Notification bell & dropdown animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInFromRight {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-in {
+  animation-name: fadeIn, slideInFromRight;
+  animation-duration: 200ms;
+  animation-timing-function: ease-out;
+}
+.notification-dot {
+  width: 2.5px;
+  height: 2.5px;
+  background: #d97706;
+  border-radius: 9999px;
+}
+
+/* Ensure dropdown stays above other content */
+.notification-dropdown {
+  z-index: 50;
+}
+
+/* Reduce motion for badge pulse when many notifications */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse { animation: none; }
+}
