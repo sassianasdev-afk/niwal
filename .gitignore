@@ -1,3 +1,10 @@
 node_modules
 
 *.env
+
+# Tjahel node_modules finma kano
+**/node_modules/
+
+# Tjahel .env finma kano
+**/.env
+**/.env.*
