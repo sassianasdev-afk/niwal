@@ -8,9 +8,14 @@ const placeOrder = async (req, res) => {
 
         let tableNumber = null;
         if (tableId) {
-            const table = await tableModel.findById(tableId);
-            if (table) {
-                tableNumber = table.number;
+            try {
+                const table = await tableModel.findById(tableId);
+                if (table) {
+                    tableNumber = table.number;
+                }
+            } catch (err) {
+                // Invalid ObjectId (e.g. "placeholder") – ignore, tableNumber stays null
+                console.log("Invalid tableId, skipping table lookup:", tableId);
             }
         }
 

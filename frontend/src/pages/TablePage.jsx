@@ -1,15 +1,34 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
 
 const TablePage = () => {
   const { tableId } = useParams();
-  const { products, categories, addToCart, updateQuantity, cartItems, getCartCount, getCartAmount, clearCart, placeOrder, clientsite, loading } = useContext(ShopContext);
+  const { products, categories, addToCart, updateQuantity, cartItems, getCartCount, getCartAmount, clearCart, placeOrder, clientsite, loading, backendUrl } = useContext(ShopContext);
   const navigateApp = useNavigate();
 
   const [activeCategory, setActiveCategory] = useState('all');
   const [cartOpen, setCartOpen] = useState(false);
+  const [table, setTable] = useState(null);
+  const [tableLoading, setTableLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTable = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/api/table/${tableId}`);
+        if (response.data.success) {
+          setTable(response.data.table);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setTableLoading(false);
+      }
+    };
+    fetchTable();
+  }, [tableId, backendUrl]);
 
   const filteredProducts = products.filter((product) => {
     if (activeCategory === 'all') return true;
@@ -68,7 +87,7 @@ const TablePage = () => {
           <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-brown-900 font-bold">
             T
           </div>
-          <span className="font-bold text-lg">Table #{tableId}</span>
+          <span className="font-bold text-lg">Table #{table ? table.number : tableId}</span>
         </div>
         <div className="relative">
           <button

@@ -7,22 +7,19 @@ import QRCode from 'qrcode';
 // Generate default tables 1-6 if they don't exist
 const generateTables = async (req, res) => {
     try {
-        const tablesToCreate = [];
         for (let i = 1; i <= 6; i++) {
             const existing = await tableModel.findOne({ number: i });
             if (!existing) {
-                const qrUrl = `${CLIENTSITE}/table/placeholder`;
-                const qrCodeDataUrl = await QRCode.toDataURL(qrUrl);
-                tablesToCreate.push({
+                const table = new tableModel({
                     number: i,
                     isActive: true,
-                    qrCode: qrCodeDataUrl,
                 });
+                await table.save();
+                const qrUrl = `${CLIENTSITE}/table/${table._id}`;
+                const qrCodeDataUrl = await QRCode.toDataURL(qrUrl);
+                table.qrCode = qrCodeDataUrl;
+                await table.save();
             }
-        }
-
-        if (tablesToCreate.length > 0) {
-            await tableModel.insertMany(tablesToCreate);
         }
 
         const allTables = await tableModel.find({}).sort({ number: 1 });
@@ -68,14 +65,15 @@ const addTable = async (req, res) => {
             return res.json({ success: false, message: "Ce numéro de table existe déjà" });
         }
 
-        const qrUrl = `${CLIENTSITE}/table/placeholder`;
-        const qrCodeDataUrl = await QRCode.toDataURL(qrUrl);
-
         const table = new tableModel({
             number,
             isActive: true,
-            qrCode: qrCodeDataUrl,
         });
+        await table.save();
+
+        const qrUrl = `${CLIENTSITE}/table/${table._id}`;
+        const qrCodeDataUrl = await QRCode.toDataURL(qrUrl);
+        table.qrCode = qrCodeDataUrl;
         await table.save();
 
         res.json({ success: true, message: "Table ajoutée", table });
@@ -98,7 +96,7 @@ const updateTable = async (req, res) => {
 
         let qrCode = table.qrCode;
         if (number && number !== table.number) {
-            const qrUrl = `${CLIENTSITE}/table/placeholder`;
+            const qrUrl = `${CLIENTSITE}/table/${table._id}`;
             qrCode = await QRCode.toDataURL(qrUrl);
         }
 
