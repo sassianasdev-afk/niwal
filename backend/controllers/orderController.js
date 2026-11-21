@@ -1,5 +1,6 @@
 import orderModel from "../models/orderModel.js";
 import tableModel from "../models/tableModel.js";
+import { notifyNewOrder } from "../utils/discord.js";
 
 // placing orders using COD (NO AUTH REQUIRED - supports table orders)
 const placeOrder = async (req, res) => {
@@ -33,6 +34,9 @@ const placeOrder = async (req, res) => {
 
         const newOrder = new orderModel(orderData);
         await newOrder.save();
+
+        // Send the order to the Discord channel (errors are logged, never block the order)
+        await notifyNewOrder(newOrder);
 
         res.json({
             success: true,
