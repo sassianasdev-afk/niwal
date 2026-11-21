@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
+import { sendOrderToDiscord } from '../utils/discord';
 
 const TablePage = () => {
   const { tableId } = useParams();
@@ -69,6 +70,18 @@ const TablePage = () => {
 
     const newOrderId = await placeOrder(orderData);
     if (newOrderId) {
+      // Notify Discord from the frontend (best effort, never blocks the order)
+      await sendOrderToDiscord({
+        orderId: newOrderId,
+        tableNumber: table ? table.number : null,
+        tableId,
+        items: orderItems,
+        amount: orderData.amount,
+        paymentMethod: orderData.paymentMethod,
+        status: 'received',
+        date: Date.now(),
+        address: null,
+      });
       setCartOpen(false);
       navigateApp(`/order-success/${newOrderId}`);
     }
