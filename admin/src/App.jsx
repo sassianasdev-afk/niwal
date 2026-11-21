@@ -15,6 +15,7 @@ import CategoryList from './pages/CategoryList'
 import CategoryUpdate from './pages/CategoryUpdate'
 import TableAdd from './pages/TableAdd'
 import TableList from './pages/TableList'
+import Caisse from './pages/Caisse'
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 export const currency = 'MAD :'
@@ -65,6 +66,7 @@ const App = () => {
                   <Route path='/category/update/:id' element={<CategoryUpdate token={token} />} />
                   <Route path='/table/add' element={<TableAdd token={token} />} />
                   <Route path='/table/list' element={<TableList token={token} />} />
+                  <Route path='/caisse' element={<Caisse token={token} />} />
                 </Routes>
               </div>
             </div>

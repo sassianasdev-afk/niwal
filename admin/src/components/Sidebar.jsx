@@ -53,6 +53,11 @@ const Sidebar = ({ token }) => {
                 )}
             </NavLink>
 
+            <NavLink className='flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l' to={'/caisse'}>
+                <span className='w-5 h-5 flex items-center justify-center text-lg'>💰</span>
+                <p className='hidden md:block'>La caisse</p>
+            </NavLink>
+
             {permission === 'denied' && (
               <div className='mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-yellow-800 text-xs'>
                 ⚠️ Notifications bloquées par le navigateur

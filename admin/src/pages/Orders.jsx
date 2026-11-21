@@ -41,6 +41,16 @@ const Orders = ({ token }) => {
     ['received', 'preparing', 'ready'].includes(order.status)
   ).length
 
+  // Financial summary
+  const servedOrders = orders.filter(order => order.status === 'served')
+  const confirmedOrders = orders.filter(order => order.status !== 'cancelled')
+  const totalServed = servedOrders.reduce((sum, order) => sum + Number(order.amount || 0), 0)
+  const totalConfirmed = confirmedOrders.reduce((sum, order) => sum + Number(order.amount || 0), 0)
+
+  const today = new Date().toDateString()
+  const servedToday = servedOrders.filter(order => order.date && new Date(order.date).toDateString() === today)
+  const totalServedToday = servedToday.reduce((sum, order) => sum + Number(order.amount || 0), 0)
+
   const tabs = [
     { key: 'all', label: 'Tous' },
     { key: 'pending', label: 'En attente', count: pendingCount },
@@ -170,6 +180,34 @@ const Orders = ({ token }) => {
           </span>
         )}
       </div>
+
+      {/* Financial Summary */}
+      {!loading && (
+        <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6'>
+          <div className='bg-white border-2 border-green-200 rounded-xl p-4 shadow-sm'>
+            <p className='text-sm text-gray-500'>💰 Total encaissé</p>
+            <p className='text-2xl font-bold text-green-700 mt-1'>{currency} {totalServed.toFixed(2)}</p>
+            <p className='text-xs text-gray-500 mt-1'>
+              {servedOrders.length} commande{servedOrders.length > 1 ? 's' : ''} servie{servedOrders.length > 1 ? 's' : ''}
+            </p>
+          </div>
+          <div className='bg-white border-2 border-amber-200 rounded-xl p-4 shadow-sm'>
+            <p className='text-sm text-gray-500'>✅ Total confirmé (hors annulées)</p>
+            <p className='text-2xl font-bold text-brown-900 mt-1'>{currency} {totalConfirmed.toFixed(2)}</p>
+            <p className='text-xs text-gray-500 mt-1'>
+              {confirmedOrders.length} commande{confirmedOrders.length > 1 ? 's' : ''} confirmée{confirmedOrders.length > 1 ? 's' : ''}
+            </p>
+          </div>
+          <div className='bg-white border-2 border-blue-200 rounded-xl p-4 shadow-sm'>
+            <p className='text-sm text-gray-500'>📅 Encaissé aujourd'hui</p>
+            <p className='text-2xl font-bold text-blue-700 mt-1'>{currency} {totalServedToday.toFixed(2)}</p>
+            <p className='text-xs text-gray-500 mt-1'>
+              {servedToday.length} commande{servedToday.length > 1 ? 's' : ''} servie{servedToday.length > 1 ? 's' : ''} aujourd'hui
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Tab Navigation */}
       <div className='flex flex-wrap gap-2 mb-6'>
         {tabs.map(tab => (
