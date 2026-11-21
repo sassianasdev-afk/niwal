@@ -23,7 +23,7 @@ const ShopContextProvider = (props) =>{
     const navigate = useNavigate();
 
 
-    const addToCart = (itemId, size = 'default') => {
+    const addToCart = (itemId, size = 'default', options = {}) => {
         let cartData = structuredClone(cartItems);
 
         if (cartData[itemId]) {
@@ -37,7 +37,9 @@ const ShopContextProvider = (props) =>{
             cartData[itemId][size] = 1;
         }
         setCartItems(cartData);
-        toast.success('Produit ajouté au panier');
+        if (!options.silent) {
+            toast.success('Produit ajouté au panier');
+        }
     };
 
     const updateQuantity = (itemId, size, quantity) => {

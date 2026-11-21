@@ -76,7 +76,7 @@ const TablePage = () => {
 
   return (
     <div className="min-h-screen bg-brown-50 text-gray-900">
-      <header className="bg-brown-900 text-white py-4 px-4 flex items-center justify-between">
+      <header className="bg-brown-900 text-white py-4 px-4 flex items-center justify-between sticky top-0">
         <button
           onClick={() => window.location.href = `${clientsite}/`}
           className="flex items-center gap-2 text-amber-200 hover:text-white text-sm font-medium"
@@ -140,7 +140,7 @@ const TablePage = () => {
                 <p className="text-amber-600 font-medium mb-3">{product.price} DH</p>
                 <button
                   onClick={() => {
-                    addToCart(product._id, 'default');
+                    addToCart(product._id, 'default', { silent: true });
                   }}
                   className="w-full py-2 bg-brown-900 text-white font-bold rounded-lg hover:bg-brown-800 transition"
                 >
@@ -213,7 +213,7 @@ const TablePage = () => {
                   </>
               )}
             </div>
-            <div className="p-6 border-t bg-amber-50">
+            <div className="p-6 border-t bg-amber-50 pb-20">
               <div className="flex justify-between mb-4">
                 <span className="font-medium text-brown-900">Total</span>
                 <span className="font-bold text-brown-900">{getCartAmount()} DH</span>
