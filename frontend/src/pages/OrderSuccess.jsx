@@ -93,10 +93,10 @@ const OrderSuccess = () => {
               <span className="font-medium">Total:</span>
               <span className="font-bold text-amber-600">{order.amount} DH</span>
             </div>
-            <div className="flex justify-between text-brown-900">
+            {/* <div className="flex justify-between text-brown-900">
               <span className="font-medium">Mode de paiement:</span>
               <span className="font-bold">{order.paymentMethod}</span>
-            </div>
+            </div> */}
             <div className="flex justify-between text-brown-900">
               <span className="font-medium">Statut:</span>
               <span className={`font-bold ${statusColors[order.status] || 'text-brown-600'}`}>
